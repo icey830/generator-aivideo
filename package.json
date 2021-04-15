@@ -1,0 +1,65 @@
+{
+  "name": "generator-aivideo",
+  "version": "1.0.0",
+  "description": "A  Video.js plugins",
+  "license": "Apache-2.0",
+  "main": "generators/app/index.js",
+  "engines": {
+    "node": ">=8",
+    "npm": ">=5"
+  },
+  "repository": "videojs/generator-videojs-plugin",
+  "author": {
+    "name": "icey830",
+    "email": "6993449@qq.com",
+    "url": "https://github.com/icey830"
+  },
+  "vjsstandard": {
+    "ignore": [
+      "docs",
+      "generators/app/templates"
+    ]
+  },
+  "scripts": {
+    "lint": "vjsstandard",
+    "pretest": "npm run lint",
+    "test": "npm-run-all test:*",
+    "test:unit": "mocha test/*.test.js",
+    "test:integration": "node scripts/run-integration-tests.js",
+    "test:integration-lib": "node scripts/run-integration-tests.js --library",
+    "test:verify": "vjsverify --skip-es-check --verbose",
+    "preversion": "npm-run-all generate-pkg-lock test",
+    "generate-pkg-lock": "node scripts/generate-pkg-lock.js && git add plugin/package-lock.json",
+    "version": "is-prerelease || npm run update-changelog && git add CHANGELOG.md",
+    "update-changelog": "conventional-changelog -p videojs -i CHANGELOG.md -s",
+    "prepublishOnly": "npm run test:verify"
+  },
+  "lint-staged": {
+    "**/*.js": "vjsstandard --fix",
+    "(README.md|docs/conventions.md)": "doctoc --notitle"
+  },
+  "keywords": [
+    "yeoman-generator",
+    "videojs",
+    "videojs-plugin"
+  ],
+  "dependencies": {
+    "lodash": "^4.17.20",
+    "please-upgrade-node": "^3.2.0",
+    "yeoman-generator": "^4.12.0"
+  },
+  "devDependencies": {
+    "is-ci": "^2.0.0",
+    "mocha": "^8.2.1",
+    "@videojs/generator-helpers": "~2.0.2",
+    "videojs-generator-verify": "~3.0.1",
+    "videojs-standard": "^8.0.4",
+    "yeoman-assert": "^3.1.1",
+    "yeoman-test": "^3.0.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  }
+}
